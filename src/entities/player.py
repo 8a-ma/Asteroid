@@ -5,11 +5,12 @@ from collections import namedtuple
 MoveState = namedtuple('MoveState', ['up', 'down', 'left', 'right'])
 
 class Player(arcade.Sprite):
-    def __init__(self, x, y, size=5):
+    def __init__(self, x: int, y: int, mass: int = 2, size=5):
         super().__init__()
         self.texture = arcade.make_soft_square_texture(size, arcade.color.RED, outer_alpha=255)
         self.center_x = x
         self.center_y = y
+        self.mass = mass
 
         self.max_speed = 5
         self.acceleration = 0.5
