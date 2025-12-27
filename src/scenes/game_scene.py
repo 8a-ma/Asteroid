@@ -25,17 +25,20 @@ class GameScene:
 
     def on_key_press(self, key: int, modifiers: int):
         if key == arcade.key.W:
-            self.player.change_y = self.player.speed
+            self.player.move = self.player.move._replace(up=True)
         elif key == arcade.key.S:
-            self.player.change_y = -self.player.speed
+            self.player.move = self.player.move._replace(down=True)
         elif key == arcade.key.A:
-            self.player.change_x = -self.player.speed
+            self.player.move = self.player.move._replace(left=True)
         elif key == arcade.key.D:
-            self.player.change_x = self.player.speed
+            self.player.move = self.player.move._replace(right=True)
 
     def on_key_release(self, key: int, modifiers: int):
-        if key in (arcade.key.W, arcade.key.S):
-            self.player.change_y = 0
-        if key in (arcade.key.A, arcade.key.D):
-            self.player.change_x = 0
-        pass
+        if key == arcade.key.W:
+            self.player.move = self.player.move._replace(up=False)
+        elif key == arcade.key.S:
+            self.player.move = self.player.move._replace(down=False)
+        elif key == arcade.key.A:
+            self.player.move = self.player.move._replace(left=False)
+        elif key == arcade.key.D:
+            self.player.move = self.player.move._replace(right=False)
