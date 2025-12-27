@@ -15,7 +15,7 @@ class StateManager:
         self.current_scene.on_draw()
 
     def update(self, delta_time: float):
-        self.current_scene.on_updated(delta_time)
+        self.current_scene.on_update(delta_time)
 
     def on_key_press(self, key: int, modifiers: int):
         self.current_scene.on_key_press(key, modifiers)

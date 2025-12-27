@@ -17,11 +17,11 @@ class GameWindow(arcade.Window):
         self.clear()
         self.state_manager.draw()
 
-    def on_updated(self, delta_time: float):
+    def on_update(self, delta_time: float):
         self.state_manager.update(delta_time)
 
-    def on_key_press(self, key, modifiers):
+    def on_key_press(self, key: int, modifiers: int):
         self.state_manager.on_key_press(key, modifiers)
 
-    def on_key_release(self, key, modifiers):
+    def on_key_release(self, key: int, modifiers: int):
         self.state_manager.on_key_release(key, modifiers)
