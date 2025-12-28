@@ -14,7 +14,7 @@ class GameScene:
         self.screen_center_x = self.window.width // 2
         self.screen_center_y = self.window.height // 2
 
-        self.sprite_manager = SpriteManager()
+        self.sprite_manager = SpriteManager(self.window)
 
         self.player = None
         self.start = None
@@ -40,7 +40,7 @@ class GameScene:
         distance_sq = diff_x**2 + diff_y**2
         distance = math.sqrt(distance_sq)
 
-        if distance < 15:
+        if distance < 30:
             return
 
         force_magnitude = (actor.mass * target.mass) / distance_sq
