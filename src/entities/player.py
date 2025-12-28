@@ -16,7 +16,7 @@ class Player(arcade.Sprite):
         self.acceleration = 0.5
 
         self.move = MoveState(up=False, down=False, left=False, right=False)
-
+        self.static = False
 
     def update(self, delta_time: float):
         if self.move.up:
