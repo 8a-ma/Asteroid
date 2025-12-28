@@ -1,5 +1,6 @@
 import arcade
 from core.state_manager import StateManager
+from managers.input_manager import InputManager
 
 
 class GameWindow(arcade.Window):
@@ -9,6 +10,7 @@ class GameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
         self.state_manager = StateManager(self)
+        self.input_manager = InputManager()
 
     def setup(self):
         self.state_manager.setup()
@@ -21,7 +23,9 @@ class GameWindow(arcade.Window):
         self.state_manager.update(delta_time)
 
     def on_key_press(self, key: int, modifiers: int):
+        self.input_manager.key_press(key)
         self.state_manager.on_key_press(key, modifiers)
 
     def on_key_release(self, key: int, modifiers: int):
+        self.input_manager.key_release(key)
         self.state_manager.on_key_release(key, modifiers)

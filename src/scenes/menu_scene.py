@@ -1,5 +1,4 @@
 import arcade
-from scenes.game_scene import GameScene
 
 
 class MenuScene:
@@ -25,8 +24,9 @@ class MenuScene:
         pass
 
     def on_key_press(self, key: int, modifiers: int):
-
         if key == arcade.key.ENTER:
+            from scenes.game_scene import GameScene
+
             self.manager.change_scene(GameScene)
 
     def on_key_release(self, key: int, modifiers: int):

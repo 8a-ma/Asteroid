@@ -1,8 +1,7 @@
 import arcade
 from collections import namedtuple
+from managers.input_manager import InputManager
 
-
-MoveState = namedtuple('MoveState', ['up', 'down', 'left', 'right'])
 
 class Player(arcade.Sprite):
     def __init__(self, x: int, y: int, mass: int = 2, size=5):
@@ -14,18 +13,18 @@ class Player(arcade.Sprite):
 
         self.max_speed = 5
         self.acceleration = 0.5
-
-        self.move = MoveState(up=False, down=False, left=False, right=False)
         self.static = False
 
+        self.inputs = InputManager()
+
     def update(self, delta_time: float):
-        if self.move.up:
+        if self.inputs.is_pressed(arcade.key.W):
             self.change_y += self.acceleration
-        if self.move.down:
+        if self.inputs.is_pressed(arcade.key.S):
             self.change_y -= self.acceleration
-        if self.move.left:
+        if self.inputs.is_pressed(arcade.key.A):
             self.change_x -= self.acceleration
-        if self.move.right:
+        if self.inputs.is_pressed(arcade.key.D):
             self.change_x += self.acceleration
 
         self.change_x = arcade.math.clamp(self.change_x, -self.max_speed, self.max_speed)

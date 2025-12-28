@@ -33,7 +33,6 @@ class GameScene:
             asteroid.init_velocity_towards(self.screen_center_x * 1.1, self.screen_center_y * 1.1)
             self.sprite_manager.add_astroid(asteroid)
 
-
     def apply_mutual_gravity(self, actor, target):
         """Calcula la atracción entre la estrella y el jugador."""
         diff_x = target.center_x - actor.center_x
@@ -41,7 +40,7 @@ class GameScene:
         distance_sq = diff_x**2 + diff_y**2
         distance = math.sqrt(distance_sq)
 
-        if distance < 1:
+        if distance < 15:
             return
 
         force_magnitude = (actor.mass * target.mass) / distance_sq
@@ -60,7 +59,7 @@ class GameScene:
         entities.extend(self.sprite_manager.env_list)
 
         for idx_i, entitie_i in enumerate(entities):
-            if not entitie_i.static: continue
+            if getattr(entitie_i, 'static', False): continue
 
             for idx_j, entitie_j in enumerate(entities):
                 if idx_i == idx_j: continue
@@ -70,13 +69,10 @@ class GameScene:
         self.sprite_manager.update()
 
     def on_key_press(self, key: int, modifiers: int):
-        self.update_player_input(key, True)
+        if key == arcade.key.ESCAPE:
+            from scenes.menu_scene import MenuScene
+
+            self.manager.change_scene(MenuScene)
 
     def on_key_release(self, key: int, modifiers: int):
-        self.update_player_input(key, False)
-
-    def update_player_input(self, key, state):
-        if key == arcade.key.W: self.player.move = self.player.move._replace(up=state)
-        elif key == arcade.key.S: self.player.move = self.player.move._replace(down=state)
-        elif key == arcade.key.A: self.player.move = self.player.move._replace(left=state)
-        elif key == arcade.key.D: self.player.move = self.player.move._replace(right=state)
+        pass
