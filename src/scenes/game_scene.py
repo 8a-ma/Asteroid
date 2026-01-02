@@ -1,11 +1,12 @@
 import arcade
 import math
-from random import randint, uniform
+from ui.hud import HUD
+from utils.quadtree import Quadtree
 from entities.player import Player
 from entities.entities import Star
+from random import randint, uniform
 from entities.entities import Asteroid
 from managers.sprite_manager import SpriteManager
-from ui.hud import HUD
 
 
 class GameScene:
@@ -58,18 +59,28 @@ class GameScene:
         self.hud.draw()
 
     def on_update(self, delta_time: float):
-        entities = []
-        entities.extend(self.sprite_manager.player_list)
-        entities.extend(self.sprite_manager.asteroid_list)
-        entities.extend(self.sprite_manager.env_list)
+        boundary = arcade.rect.XYWH(self.window.width / 2, self.window.height / 2, self.window.width, self.window.height)
+        qt = Quadtree(boundary, 4)
 
-        for idx_i, entitie_i in enumerate(entities):
-            if getattr(entitie_i, 'static', False): continue
 
-            for idx_j, entitie_j in enumerate(entities):
-                if idx_i == idx_j: continue
+        all_entities = []
+        all_entities.extend(self.sprite_manager.player_list)
+        all_entities.extend(self.sprite_manager.asteroid_list)
+        all_entities.extend(self.sprite_manager.env_list)
 
-                self.apply_mutual_gravity(entitie_i, entitie_j)
+        for e in all_entities:
+            qt.insert(e)
+
+        for entity in all_entities:
+            if getattr(entity, 'static', False): continue
+
+            influence_range = arcade.rect.XYWH(entity.center_x, entity.center_y, 600, 600)
+            nearby = []
+            qt.query(influence_range, nearby)
+
+            for other in nearby:
+                if entity == other: continue
+                self.apply_mutual_gravity(entity, other)
 
         self.sprite_manager.update()
 
