@@ -5,6 +5,7 @@ from entities.player import Player
 from entities.entities import Star
 from entities.entities import Asteroid
 from managers.sprite_manager import SpriteManager
+from ui.hud import HUD
 
 
 class GameScene:
@@ -19,6 +20,7 @@ class GameScene:
         self.player = None
         self.start = None
         self.num_asteroid = 10
+        self.hud = None
 
     def setup(self):
         self.player = Player(self.screen_center_x // 2, self.screen_center_y)
@@ -33,6 +35,8 @@ class GameScene:
             asteroid.init_velocity_towards(self.screen_center_x * 1.1, self.screen_center_y * 1.1)
             self.sprite_manager.add_astroid(asteroid)
 
+        self.hud = HUD(self.window, self.player)
+
     def apply_mutual_gravity(self, actor, target):
         """Calcula la atracción entre la estrella y el jugador."""
         diff_x = target.center_x - actor.center_x
@@ -40,7 +44,7 @@ class GameScene:
         distance_sq = diff_x**2 + diff_y**2
         distance = math.sqrt(distance_sq)
 
-        if distance < 30:
+        if distance < 30 or distance > 100:
             return
 
         force_magnitude = (actor.mass * target.mass) / distance_sq
@@ -51,6 +55,7 @@ class GameScene:
 
     def on_draw(self):
         self.sprite_manager.draw()
+        self.hud.draw()
 
     def on_update(self, delta_time: float):
         entities = []

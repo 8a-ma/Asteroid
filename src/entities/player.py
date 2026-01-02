@@ -12,7 +12,7 @@ class Player(arcade.Sprite):
         self.mass = mass
 
         self.max_speed = 5
-        self.acceleration = 0.5
+        self.acceleration = 0.1
         self.static = False
 
         self.inputs = InputManager()
